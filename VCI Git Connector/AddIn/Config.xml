@@ -1,0 +1,39 @@
+﻿<PackageConfiguration xmlns="http://www.siemens.com/automation/Openness/AddIn/Publisher/V17">
+  <Author>Siemens AG - SIMATIC Systems Support</Author>
+  <AddInVersion>V17</AddInVersion>
+  <Description>This TIA Add-In allows you to connect your VCI workspace to a Git repository</Description>
+
+  <Product>
+    <Name>VCI Git Connector</Name>
+    <Id>vci_git_connector</Id>
+    <Version>1.0.0</Version>
+  </Product>
+
+  <FeatureAssembly>
+    <AssemblyInfo>
+      <Assembly>..\bin\Debug\Siemens.VCIGitConnector.dll</Assembly>
+    </AssemblyInfo>
+  </FeatureAssembly>
+
+  <AdditionalAssemblies>
+    <AssemblyInfo>
+      <Assembly>..\bin\Debug\Siemens.VCIGitConnectorUI.dll</Assembly>
+    </AssemblyInfo>
+    <AssemblyInfo>
+      <Assembly>..\bin\Debug\Siemens.VCIGitConnector.XmlSerializers.dll</Assembly>
+    </AssemblyInfo>
+  </AdditionalAssemblies>
+
+  <RequiredPermissions>
+    <TIAPermissions>
+      <TIA.ReadWrite/>
+    </TIAPermissions>
+    <SecurityPermissions>
+      <System.Security.Permissions.FileIOPermission/>
+      <System.Security.Permissions.EnvironmentPermission/>
+      <System.Security.Permissions.UIPermission/>
+      <Siemens.Engineering.AddIn.Permissions.ProcessStartPermission/>
+      <System.Security.Permissions.SecurityPermission.UnmanagedCode/>
+    </SecurityPermissions>
+  </RequiredPermissions>
+</PackageConfiguration>
