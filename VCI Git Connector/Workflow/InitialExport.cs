@@ -43,12 +43,60 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.Workflow
                 return ExportResult.Failed;
             }
 
-            // Git Add
-            var process = Git.CreateGitProcess($"add {string.Join(" ", exportedFiles)}", vciInitialExportAddInContext.CurrentWorkspace.RootPath.FullName);
+            //Check if it is a repository
+            var process = Git.CreateGitProcess($"rev-parse --is-inside-work-tree", vciInitialExportAddInContext.CurrentWorkspace.RootPath.FullName);
 
             string outputMessage;
             string errorMessage;
 
+            var repoSuccessful = Git.ExecuteGitCommand(process, out outputMessage, out errorMessage, _tiaPortal);
+
+            if (!repoSuccessful)
+            {
+                //Git Init
+                process = Git.CreateGitProcess($"init", vciInitialExportAddInContext.CurrentWorkspace.RootPath.FullName);
+                var initSuccessful = Git.ExecuteGitCommand(process, out outputMessage, out errorMessage, _tiaPortal);
+                if (!initSuccessful)
+                {
+                    UserInteraction.ShowOutputDialog("Git Init", SystemIcons.Error.ToBitmap(), "Error message from Git init command", outputMessage + Environment.NewLine + errorMessage);
+                    return ExportResult.Failed;
+                }
+                else
+                {
+                    //Git Config user.name
+                    string configName;
+                    string configEmail;
+                    if (UserInteraction.ShowInputDialog("Git Config", "Enter the user.name", string.Empty, out configName))
+                    {
+                        process = Git.CreateGitProcess($"config user.name \"{configName}\"", vciInitialExportAddInContext.CurrentWorkspace.RootPath.FullName);
+
+                        var configNameSuccessful = Git.ExecuteGitCommand(process, out outputMessage, out errorMessage, _tiaPortal);
+                        if (configNameSuccessful)
+                        {
+                            //Git Config user.email
+                            if (UserInteraction.ShowInputDialog("Git Config", "Enter the user.email", string.Empty, out configEmail))
+                            {
+                                process = Git.CreateGitProcess($"config user.email \"{configEmail}\"", vciInitialExportAddInContext.CurrentWorkspace.RootPath.FullName);
+
+                                var configEmailSuccessful = Git.ExecuteGitCommand(process, out outputMessage, out errorMessage, _tiaPortal);
+                                if (!configEmailSuccessful)
+                                {
+                                    UserInteraction.ShowOutputDialog("Git Config user.email", SystemIcons.Error.ToBitmap(), "Error message from Git config command", outputMessage + Environment.NewLine + errorMessage);
+                                    return ExportResult.Failed;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            UserInteraction.ShowOutputDialog("Git Config user.name", SystemIcons.Error.ToBitmap(), "Error message from Git config command", outputMessage + Environment.NewLine + errorMessage);
+                            return ExportResult.Failed;
+                        }
+
+                    }
+                }
+            }
+            // Git Add
+            process = Git.CreateGitProcess($"add {string.Join(" ", exportedFiles)}", vciInitialExportAddInContext.CurrentWorkspace.RootPath.FullName);
             var addSuccessful = Git.ExecuteGitCommand(process, out outputMessage, out errorMessage, _tiaPortal);
 
             if (!addSuccessful)

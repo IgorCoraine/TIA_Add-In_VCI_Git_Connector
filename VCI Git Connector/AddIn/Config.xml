@@ -1,5 +1,5 @@
 ﻿<PackageConfiguration xmlns="http://www.siemens.com/automation/Openness/AddIn/Publisher/V17">
-  <Author>Siemens AG - SIMATIC Systems Support</Author>
+  <Author>Siemens AG - SIMATIC Systems Support|Modified by igorcoraine.github.io</Author>
   <AddInVersion>V17</AddInVersion>
   <Description>This TIA Add-In allows you to connect your VCI workspace to a Git repository</Description>
 
