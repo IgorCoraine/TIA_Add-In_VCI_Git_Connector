@@ -31,6 +31,7 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Restore", GitRestoreClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Push", GitPushClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Pull", GitPullClick);
+            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("FreeCmd", GitFreeClick); //Added Item
             var settingsSubmenu = addInRootSubmenu.Items.AddSubmenu("Settings");
             settingsSubmenu.Items.AddActionItemWithCheckBox<WorkspaceFile, WorkspaceFolder>("Commit on VCI synchronize", _settings.GitCommitOnSyncClick, _settings.GitCommitOnSyncStatus);
             settingsSubmenu.Items.AddActionItemWithCheckBox<WorkspaceFile, WorkspaceFolder>("Push on VCI synchronize", _settings.GitPushOnSyncClick, _settings.GitPushOnSyncStatus);
@@ -375,6 +376,57 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
                 else
                 {
                     UserInteraction.ShowOutputDialog("Git Pull", SystemIcons.Error.ToBitmap(), "Error message from Git pull command", outputMessage + Environment.NewLine + errorMessage);
+                }
+            }
+        }
+
+        //GIT FREE COMMAND
+
+        private static void GitFreeClick(MenuSelectionProvider<WorkspaceFile, WorkspaceFolder> menuSelectionProvider)
+        {
+            var workspacePath = string.Empty;
+            var objectPaths = new List<string>();
+
+            if (menuSelectionProvider.GetSelection<WorkspaceFile>().Any())
+            {
+                workspacePath = menuSelectionProvider.GetSelection<WorkspaceFile>().First().Workspace.RootPath.FullName;
+            }
+            else if (menuSelectionProvider.GetSelection<WorkspaceFolder>().Any())
+            {
+                workspacePath = menuSelectionProvider.GetSelection<WorkspaceFolder>().First().Workspace.RootPath.FullName;
+            }
+
+            foreach (var file in menuSelectionProvider.GetSelection<WorkspaceFile>())
+            {
+                objectPaths.Add("\"" + file.FileInfo.FullName + "\"");
+            }
+
+            foreach (var folder in menuSelectionProvider.GetSelection<WorkspaceFolder>())
+            {
+                objectPaths.Add("\"" + folder.DirectoryInfo.FullName.TrimEnd('\\') + "\"");
+            }
+
+            if (workspacePath != string.Empty && objectPaths.Any())
+            {
+                string gitCommand;
+
+                if (UserInteraction.ShowInputDialog("Git Command", "Enter any git command **without** the initial 'git'", string.Empty, out gitCommand))
+                {
+                    var commandProcess = Git.CreateGitProcess($"{gitCommand}", workspacePath);
+
+                    string outputMessage;
+                    string errorMessage;
+
+                    var commandSuccessful = Git.ExecuteGitCommand(commandProcess, out outputMessage, out errorMessage, _tiaPortal);
+
+                    if (commandSuccessful)
+                    {
+                        UserInteraction.ShowOutputDialog("Git Command", SystemIcons.Information.ToBitmap(), "Output message from Git free command", outputMessage + Environment.NewLine + errorMessage);
+                    }
+                    else
+                    {
+                        UserInteraction.ShowOutputDialog("Git Command", SystemIcons.Error.ToBitmap(), "Error message from Git free command", outputMessage + Environment.NewLine + errorMessage);
+                    }
                 }
             }
         }

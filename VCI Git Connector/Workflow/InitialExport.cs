@@ -43,7 +43,7 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.Workflow
                 return ExportResult.Failed;
             }
 
-            //Check if it is a repository
+            //Check if it is a repository - Added session
             var process = Git.CreateGitProcess($"rev-parse --is-inside-work-tree", vciInitialExportAddInContext.CurrentWorkspace.RootPath.FullName);
 
             string outputMessage;
