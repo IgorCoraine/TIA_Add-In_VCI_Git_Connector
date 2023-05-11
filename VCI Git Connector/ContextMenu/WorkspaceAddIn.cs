@@ -25,13 +25,17 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
         {
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Add", GitAddClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Commit", GitCommitClick);
-            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Log", GitLogClick);
+            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Log", GitLogClick); //Changed to log --oneline
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Status", GitStatusClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Reset", GitResetClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Restore", GitRestoreClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Push", GitPushClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Pull", GitPullClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("FreeCmd", GitFreeClick); //Added Item
+            //ignore
+            //archieve and push
+            //clone from remote
+            //export log
             var settingsSubmenu = addInRootSubmenu.Items.AddSubmenu("Settings");
             settingsSubmenu.Items.AddActionItemWithCheckBox<WorkspaceFile, WorkspaceFolder>("Commit on VCI synchronize", _settings.GitCommitOnSyncClick, _settings.GitCommitOnSyncStatus);
             settingsSubmenu.Items.AddActionItemWithCheckBox<WorkspaceFile, WorkspaceFolder>("Push on VCI synchronize", _settings.GitPushOnSyncClick, _settings.GitPushOnSyncStatus);
@@ -159,7 +163,7 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
 
             if (workspacePath != string.Empty && objectPaths.Any())
             {
-                var logProcess = Git.CreateGitProcess($"log {string.Join(" ", objectPaths)}", workspacePath);
+                var logProcess = Git.CreateGitProcess($"log --oneline", workspacePath);
 
                 string outputMessage;
                 string errorMessage;
@@ -410,7 +414,7 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
             {
                 string gitCommand;
 
-                if (UserInteraction.ShowInputDialog("Git Command", "Enter any git command **without** the initial 'git'", string.Empty, out gitCommand))
+                if (UserInteraction.ShowInputDialog("Git Command", "Enter any git command WHITHOUT the 'git' word", string.Empty, out gitCommand))
                 {
                     var commandProcess = Git.CreateGitProcess($"{gitCommand}", workspacePath);
 
