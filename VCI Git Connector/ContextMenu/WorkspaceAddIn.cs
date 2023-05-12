@@ -7,6 +7,8 @@ using Siemens.Applications.AddIns.VCIGitConnector.Utility;
 using Siemens.Engineering;
 using Siemens.Engineering.AddIn.Menu;
 using Siemens.Engineering.AddIn.VersionControl;
+using System.IO;
+using System.Text;
 
 namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
 {
@@ -35,7 +37,7 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
             //ignore
             //archieve and push
             //clone from remote
-            //export log
+            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Export Log", GitExportClick); //Added Item
             var settingsSubmenu = addInRootSubmenu.Items.AddSubmenu("Settings");
             settingsSubmenu.Items.AddActionItemWithCheckBox<WorkspaceFile, WorkspaceFolder>("Commit on VCI synchronize", _settings.GitCommitOnSyncClick, _settings.GitCommitOnSyncStatus);
             settingsSubmenu.Items.AddActionItemWithCheckBox<WorkspaceFile, WorkspaceFolder>("Push on VCI synchronize", _settings.GitPushOnSyncClick, _settings.GitPushOnSyncStatus);
@@ -431,6 +433,72 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
                     {
                         UserInteraction.ShowOutputDialog("Git Command", SystemIcons.Error.ToBitmap(), "Error message from Git free command", outputMessage + Environment.NewLine + errorMessage);
                     }
+                }
+            }
+        }
+
+        //EXPORT GIT LOG
+        private static void GitExportClick(MenuSelectionProvider<WorkspaceFile, WorkspaceFolder> menuSelectionProvider)
+        {
+            var workspacePath = string.Empty;
+            var objectPaths = new List<string>();
+            string exportPath = "";
+
+            if (menuSelectionProvider.GetSelection<WorkspaceFile>().Any())
+            {
+                workspacePath = menuSelectionProvider.GetSelection<WorkspaceFile>().First().Workspace.RootPath.FullName;
+            }
+            else if (menuSelectionProvider.GetSelection<WorkspaceFolder>().Any())
+            {
+                workspacePath = menuSelectionProvider.GetSelection<WorkspaceFolder>().First().Workspace.RootPath.FullName;
+            }
+
+            foreach (var file in menuSelectionProvider.GetSelection<WorkspaceFile>())
+            {
+                objectPaths.Add("\"" + file.FileInfo.FullName + "\"");
+                exportPath = file.FileInfo.DirectoryName;
+            }
+
+            foreach (var folder in menuSelectionProvider.GetSelection<WorkspaceFolder>())
+            {
+                objectPaths.Add("\"" + folder.DirectoryInfo.FullName.TrimEnd('\\') + "\"");
+                exportPath = folder.DirectoryInfo.FullName.TrimEnd('\\') + "\"";
+            }
+
+            if (workspacePath != string.Empty && objectPaths.Any())
+            {
+                var logProcess = Git.CreateGitProcess($"log", workspacePath);
+
+                string outputMessage;
+                string errorMessage;
+
+                var logSuccessful = Git.ExecuteGitCommand(logProcess, out outputMessage, out errorMessage, _tiaPortal);
+
+                if (logSuccessful)
+                {
+                    //{string.Join(" ", objectPaths)}
+                    string path = exportPath+"\\gitLog.txt";
+                    try
+                    {
+                        //UserInteraction.ShowOutputDialog("Export Git Log", SystemIcons.Information.ToBitmap(), "File will be Exported to", path + Environment.NewLine + errorMessage);
+                        // Create the file, or overwrite if the file exists.
+                        using (FileStream fs = File.Create(path))
+                        {
+                            byte[] log = new UTF8Encoding(true).GetBytes(outputMessage);
+                            // Add the log to the file.
+                            fs.Write(log, 0, log.Length);
+                        }
+                        UserInteraction.ShowOutputDialog("Export Git Log", SystemIcons.Information.ToBitmap(), "File Successfully Exported to", path + Environment.NewLine + errorMessage);
+                    }
+
+                    catch (Exception ex)
+                    {
+                        UserInteraction.ShowOutputDialog("Export Git Log", SystemIcons.Error.ToBitmap(), "Error message from exporting file", ex.ToString() + Environment.NewLine + errorMessage);
+                    }
+                }
+                else
+                {
+                    UserInteraction.ShowOutputDialog("Export Git Log", SystemIcons.Error.ToBitmap(), "Error message from Git log command", outputMessage + Environment.NewLine + errorMessage);
                 }
             }
         }
