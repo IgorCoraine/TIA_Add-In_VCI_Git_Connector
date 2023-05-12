@@ -9,6 +9,8 @@ using Siemens.Engineering.AddIn.Menu;
 using Siemens.Engineering.AddIn.VersionControl;
 using System.IO;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
+using System.Text.RegularExpressions;
 
 namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
 {
@@ -471,22 +473,42 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
 
                 string outputMessage;
                 string errorMessage;
+                string htmlLine;
 
                 var logSuccessful = Git.ExecuteGitCommand(logProcess, out outputMessage, out errorMessage, _tiaPortal);
 
+                //spliting lines to rebuild later as html
+                var splitedMessage = Regex.Split(outputMessage, "\r\n|\r|\n");
+                
                 if (logSuccessful)
                 {
                     //{string.Join(" ", objectPaths)}
-                    string path = exportPath+"\\gitLog.txt";
+                    string path = exportPath+"\\gitLog.html";
                     try
                     {
-                        //UserInteraction.ShowOutputDialog("Export Git Log", SystemIcons.Information.ToBitmap(), "File will be Exported to", path + Environment.NewLine + errorMessage);
                         // Create the file, or overwrite if the file exists.
                         using (FileStream fs = File.Create(path))
                         {
-                            byte[] log = new UTF8Encoding(true).GetBytes(outputMessage);
                             // Add the log to the file.
-                            fs.Write(log, 0, log.Length);
+                            foreach (var line in splitedMessage)
+                            {
+                                if (line.Contains("commit"))
+                                {
+
+                                    htmlLine = "<h3>" + line + "</h3>";
+                                } else if (line.Contains("Author")||line.Contains("Date"))
+                                {
+                                    htmlLine = "<p>" + line + "</p>";
+                                } else if(line!="")
+                                {
+                                    htmlLine = "<p><strong>" + line + "</strong></p><br><hr style=\"border-top: 3px solid #bbb\">";
+                                } else
+                                {
+                                    htmlLine = line;
+                                }
+                                byte[] log = new UTF8Encoding(true).GetBytes(htmlLine);
+                                fs.Write(log, 0, log.Length);
+                            }
                         }
                         UserInteraction.ShowOutputDialog("Export Git Log", SystemIcons.Information.ToBitmap(), "File Successfully Exported to", path + Environment.NewLine + errorMessage);
                     }
