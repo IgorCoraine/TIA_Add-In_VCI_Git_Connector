@@ -11,6 +11,7 @@ using System.IO;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 using System.Text.RegularExpressions;
+using System.Windows.Shapes;
 
 namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
 {
@@ -36,8 +37,9 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Push", GitPushClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Pull", GitPullClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("FreeCmd", GitFreeClick); //Added Item
+            //init?
             //ignore
-            //archieve and push
+            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Archieve and Push", GitArchieveClick); //Added Item
             //clone from remote
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Export Log", GitExportClick); //Added Item
             var settingsSubmenu = addInRootSubmenu.Items.AddSubmenu("Settings");
@@ -438,6 +440,79 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
                 }
             }
         }
+
+        //ARCHIEVE AND GIT PUSH *.ZAP**
+        private static void GitArchieveClick(MenuSelectionProvider<WorkspaceFile, WorkspaceFolder> menuSelectionProvider)
+        {
+            var workspacePath = string.Empty;
+            var objectPaths = new List<string>();
+            var exportPath = new DirectoryInfo("C:\\Users\\cassioli\\Desktop\\testArc");
+
+            if (menuSelectionProvider.GetSelection<WorkspaceFile>().Any())
+            {
+                workspacePath = menuSelectionProvider.GetSelection<WorkspaceFile>().First().Workspace.RootPath.FullName;
+            }
+            else if (menuSelectionProvider.GetSelection<WorkspaceFolder>().Any())
+            {
+                workspacePath = menuSelectionProvider.GetSelection<WorkspaceFolder>().First().Workspace.RootPath.FullName;
+            }
+
+            foreach (var file in menuSelectionProvider.GetSelection<WorkspaceFile>())
+            {
+                objectPaths.Add("\"" + file.FileInfo.FullName + "\"");
+                exportPath = file.FileInfo.Directory;
+            }
+
+            foreach (var folder in menuSelectionProvider.GetSelection<WorkspaceFolder>())
+            {
+                objectPaths.Add("\"" + folder.DirectoryInfo.FullName.TrimEnd('\\') + "\"");
+                exportPath = folder.DirectoryInfo;
+            }
+
+            if (workspacePath != string.Empty && objectPaths.Any())
+            {
+                //Archieve project
+                Project project = _tiaPortal.Projects.First();
+                //string projectPath = project.Path.ToString();
+
+                string archiveName = String.Format(project.Name, DateTime.Now.ToString("yyyyMMdd_HHmm"));
+
+                try
+                {
+                    project.Save();
+                    project.Archive(exportPath, archiveName, ProjectArchivationMode.Compressed);
+                    UserInteraction.ShowOutputDialog("Archieve Project", SystemIcons.Information.ToBitmap(), "Project archieved to", exportPath + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    UserInteraction.ShowOutputDialog("Archieve Project", SystemIcons.Error.ToBitmap(), "Error message from archieving project", ex.ToString() + Environment.NewLine);
+                }
+
+
+                //---
+                //string gitCommand;
+
+                //if (UserInteraction.ShowInputDialog("Git Command", "Enter any git command WHITHOUT the 'git' word", string.Empty, out gitCommand))
+                //{
+                //    var commandProcess = Git.CreateGitProcess($"{gitCommand}", workspacePath);
+
+                //    string outputMessage;
+                //    string errorMessage;
+
+                //    var commandSuccessful = Git.ExecuteGitCommand(commandProcess, out outputMessage, out errorMessage, _tiaPortal);
+
+                //    if (commandSuccessful)
+                //    {
+                //        UserInteraction.ShowOutputDialog("Git Command", SystemIcons.Information.ToBitmap(), "Output message from Git free command", outputMessage + Environment.NewLine + errorMessage);
+                //    }
+                //    else
+                //    {
+                //        UserInteraction.ShowOutputDialog("Git Command", SystemIcons.Error.ToBitmap(), "Error message from Git free command", outputMessage + Environment.NewLine + errorMessage);
+                //    }
+                //}
+            }
+        }
+
 
         //EXPORT GIT LOG
         private static void GitExportClick(MenuSelectionProvider<WorkspaceFile, WorkspaceFolder> menuSelectionProvider)
