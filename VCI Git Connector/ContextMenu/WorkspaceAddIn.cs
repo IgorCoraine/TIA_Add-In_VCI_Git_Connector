@@ -12,6 +12,7 @@ using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 using System.Text.RegularExpressions;
 using System.Windows.Shapes;
+using System.Windows.Input;
 
 namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
 {
@@ -473,43 +474,64 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
             {
                 //Archieve project
                 Project project = _tiaPortal.Projects.First();
-                //string projectPath = project.Path.ToString();
 
-                string archiveName = String.Format(project.Name, DateTime.Now.ToString("yyyyMMdd_HHmm"));
+                string archiveName = project.Name;
+                string archieveFullName = exportPath + "\\" + archiveName;
 
                 try
                 {
+                    if (File.Exists(archieveFullName))
+                    {
+                        File.Delete(archieveFullName);
+                    }
                     project.Save();
                     project.Archive(exportPath, archiveName, ProjectArchivationMode.Compressed);
-                    UserInteraction.ShowOutputDialog("Archieve Project", SystemIcons.Information.ToBitmap(), "Project archieved to", exportPath + Environment.NewLine);
                 }
                 catch (Exception ex)
                 {
                     UserInteraction.ShowOutputDialog("Archieve Project", SystemIcons.Error.ToBitmap(), "Error message from archieving project", ex.ToString() + Environment.NewLine);
                 }
 
+                //GIT ADD
+                var archieveAddProcess = Git.CreateGitProcess("add "+archiveName, workspacePath);
 
-                //---
-                //string gitCommand;
+                string outputMessage;
+                string errorMessage;
 
-                //if (UserInteraction.ShowInputDialog("Git Command", "Enter any git command WHITHOUT the 'git' word", string.Empty, out gitCommand))
-                //{
-                //    var commandProcess = Git.CreateGitProcess($"{gitCommand}", workspacePath);
+                var archieveAddSuccessful = Git.ExecuteGitCommand(archieveAddProcess, out outputMessage, out errorMessage, _tiaPortal);
 
-                //    string outputMessage;
-                //    string errorMessage;
-
-                //    var commandSuccessful = Git.ExecuteGitCommand(commandProcess, out outputMessage, out errorMessage, _tiaPortal);
-
-                //    if (commandSuccessful)
-                //    {
-                //        UserInteraction.ShowOutputDialog("Git Command", SystemIcons.Information.ToBitmap(), "Output message from Git free command", outputMessage + Environment.NewLine + errorMessage);
-                //    }
-                //    else
-                //    {
-                //        UserInteraction.ShowOutputDialog("Git Command", SystemIcons.Error.ToBitmap(), "Error message from Git free command", outputMessage + Environment.NewLine + errorMessage);
-                //    }
-                //}
+                if (archieveAddSuccessful)
+                {
+                    //GIT COMMIT
+                    var archieveCommitProcess = Git.CreateGitProcess("commit -m \"Added archieved project\"" + archiveName, workspacePath);
+                    var archieveCommitSuccessful = Git.ExecuteGitCommand(archieveCommitProcess, out outputMessage, out errorMessage, _tiaPortal);
+                    if (archieveCommitSuccessful)
+                    {
+                        //GIT PUSH
+                        string remoteRepo;
+                        if (UserInteraction.ShowInputDialog("Remote Settings", "Enter the remote repository for 'git push REMOTE-NAME master'", string.Empty, out remoteRepo))
+                        {
+                            var archievePushProcess = Git.CreateGitProcess("push " + remoteRepo + " master", workspacePath);
+                            var archievePushSuccessful = Git.ExecuteGitCommand(archievePushProcess, out outputMessage, out errorMessage, _tiaPortal);
+                            if (archievePushSuccessful)
+                            {
+                                UserInteraction.ShowOutputDialog("Archieve and Push", SystemIcons.Information.ToBitmap(), "Project archieved to", exportPath + Environment.NewLine + "And pushed also pushed successfully");
+                            }
+                            else
+                            {
+                                UserInteraction.ShowOutputDialog("Git Push", SystemIcons.Error.ToBitmap(), "Error message from Git push command", outputMessage + Environment.NewLine + errorMessage);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        UserInteraction.ShowOutputDialog("Git Commit", SystemIcons.Error.ToBitmap(), "Error message from Git commit archieved command", outputMessage + Environment.NewLine + errorMessage);
+                    }
+                }
+                else
+                {
+                    UserInteraction.ShowOutputDialog("Git Add", SystemIcons.Error.ToBitmap(), "Error message from Git add achieved command", outputMessage + Environment.NewLine + errorMessage);
+                }
             }
         }
 
