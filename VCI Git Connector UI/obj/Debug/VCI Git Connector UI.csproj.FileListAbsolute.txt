@@ -8,3 +8,13 @@ C:\Users\cassioli\Documents\ProjetosVS\TIA_Add-In_VCI_Git_Connector\VCI Git Conn
 C:\Users\cassioli\Documents\ProjetosVS\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\VCI Git Connector UI\obj\Debug\VCI Git Connector UI.csproj.CoreCompileInputs.cache
 C:\Users\cassioli\Documents\ProjetosVS\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\VCI Git Connector UI\obj\Debug\Siemens.VCIGitConnectorUI.dll
 C:\Users\cassioli\Documents\ProjetosVS\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\VCI Git Connector UI\obj\Debug\Siemens.VCIGitConnectorUI.pdb
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector UI\bin\Debug\Siemens.VCIGitConnectorUI.dll
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector UI\bin\Debug\Siemens.VCIGitConnectorUI.pdb
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector UI\obj\Debug\VCI Git Connector UI.csproj.AssemblyReference.cache
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector UI\obj\Debug\Siemens.Applications.AddIns.VCIGitConnectorUI.InputForm.resources
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector UI\obj\Debug\Siemens.Applications.AddIns.VCIGitConnectorUI.OutputForm.resources
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector UI\obj\Debug\Siemens.Applications.AddIns.VCIGitConnectorUI.Properties.Resources.resources
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector UI\obj\Debug\VCI Git Connector UI.csproj.GenerateResource.cache
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector UI\obj\Debug\VCI Git Connector UI.csproj.CoreCompileInputs.cache
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector UI\obj\Debug\Siemens.VCIGitConnectorUI.dll
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector UI\obj\Debug\Siemens.VCIGitConnectorUI.pdb

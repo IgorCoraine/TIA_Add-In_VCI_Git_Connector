@@ -36,9 +36,11 @@
             this.panelBottom = new System.Windows.Forms.Panel();
             this.buttonOk = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.signaturePictureBox = new System.Windows.Forms.PictureBox();
             this.panelTop.SuspendLayout();
             this.panelMiddle.SuspendLayout();
             this.panelBottom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.signaturePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // panelTop
@@ -47,7 +49,7 @@
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(304, 48);
+            this.panelTop.Size = new System.Drawing.Size(654, 48);
             this.panelTop.TabIndex = 1;
             // 
             // labelTitle
@@ -58,7 +60,7 @@
             this.labelTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTitle.Location = new System.Drawing.Point(12, 5);
             this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Size = new System.Drawing.Size(280, 38);
+            this.labelTitle.Size = new System.Drawing.Size(630, 38);
             this.labelTitle.TabIndex = 2;
             this.labelTitle.Text = "Title";
             this.labelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -70,7 +72,7 @@
             this.panelMiddle.Location = new System.Drawing.Point(0, 48);
             this.panelMiddle.Name = "panelMiddle";
             this.panelMiddle.Padding = new System.Windows.Forms.Padding(8);
-            this.panelMiddle.Size = new System.Drawing.Size(304, 105);
+            this.panelMiddle.Size = new System.Drawing.Size(654, 207);
             this.panelMiddle.TabIndex = 3;
             // 
             // textBoxMessage
@@ -84,24 +86,25 @@
             this.textBoxMessage.Multiline = true;
             this.textBoxMessage.Name = "textBoxMessage";
             this.textBoxMessage.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxMessage.Size = new System.Drawing.Size(288, 89);
+            this.textBoxMessage.Size = new System.Drawing.Size(638, 191);
             this.textBoxMessage.TabIndex = 4;
             // 
             // panelBottom
             // 
+            this.panelBottom.Controls.Add(this.signaturePictureBox);
             this.panelBottom.Controls.Add(this.buttonOk);
             this.panelBottom.Controls.Add(this.buttonCancel);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelBottom.Location = new System.Drawing.Point(0, 153);
+            this.panelBottom.Location = new System.Drawing.Point(0, 255);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(304, 48);
+            this.panelBottom.Size = new System.Drawing.Size(654, 48);
             this.panelBottom.TabIndex = 5;
             // 
             // buttonOk
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOk.Location = new System.Drawing.Point(136, 13);
+            this.buttonOk.Location = new System.Drawing.Point(486, 13);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 6;
@@ -112,12 +115,24 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(217, 13);
+            this.buttonCancel.Location = new System.Drawing.Point(567, 13);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 7;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            // 
+            // signaturePictureBox
+            // 
+            this.signaturePictureBox.AccessibleDescription = "igor coraine logo";
+            this.signaturePictureBox.AccessibleName = "igorcoraine.github.io";
+            this.signaturePictureBox.Image = ((System.Drawing.Image)(resources.GetObject("signaturePictureBox.Image")));
+            this.signaturePictureBox.Location = new System.Drawing.Point(-14, -21);
+            this.signaturePictureBox.Name = "signaturePictureBox";
+            this.signaturePictureBox.Size = new System.Drawing.Size(174, 91);
+            this.signaturePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.signaturePictureBox.TabIndex = 8;
+            this.signaturePictureBox.TabStop = false;
             // 
             // InputForm
             // 
@@ -125,7 +140,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(304, 201);
+            this.ClientSize = new System.Drawing.Size(654, 303);
             this.Controls.Add(this.panelMiddle);
             this.Controls.Add(this.panelBottom);
             this.Controls.Add(this.panelTop);
@@ -142,6 +157,7 @@
             this.panelMiddle.ResumeLayout(false);
             this.panelMiddle.PerformLayout();
             this.panelBottom.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.signaturePictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -155,5 +171,6 @@
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.TextBox textBoxMessage;
+        private System.Windows.Forms.PictureBox signaturePictureBox;
     }
 }

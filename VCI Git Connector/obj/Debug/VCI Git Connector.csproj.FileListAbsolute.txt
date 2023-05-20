@@ -10,3 +10,15 @@ C:\Users\cassioli\Documents\ProjetosVS\TIA_Add-In_VCI_Git_Connector\VCI Git Conn
 C:\Users\cassioli\Documents\ProjetosVS\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\VCI Git Connector\obj\Debug\VCI Git Connector.csproj.CopyComplete
 C:\Users\cassioli\Documents\ProjetosVS\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\VCI Git Connector\obj\Debug\Siemens.VCIGitConnector.dll
 C:\Users\cassioli\Documents\ProjetosVS\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\VCI Git Connector\obj\Debug\Siemens.VCIGitConnector.pdb
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\bin\Debug\Siemens.VCIGitConnector.dll
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\bin\Debug\Siemens.VCIGitConnector.pdb
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\bin\Debug\Siemens.VCIGitConnectorUI.dll
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\bin\Debug\Siemens.VCIGitConnectorUI.pdb
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\obj\Debug\VCI Git Connector.csproj.AssemblyReference.cache
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\obj\Debug\Siemens.VCIGitConnector.g.resources
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\obj\Debug\Siemens.Applications.AddIns.VCIGitConnector.Properties.Resources.resources
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\obj\Debug\VCI Git Connector.csproj.GenerateResource.cache
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\obj\Debug\VCI Git Connector.csproj.CoreCompileInputs.cache
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\obj\Debug\VCI Git Connector.csproj.CopyComplete
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\obj\Debug\Siemens.VCIGitConnector.dll
+C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\obj\Debug\Siemens.VCIGitConnector.pdb
