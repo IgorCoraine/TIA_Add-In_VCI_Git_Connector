@@ -1,7 +1,8 @@
 ﻿<PackageConfiguration xmlns="http://www.siemens.com/automation/Openness/AddIn/Publisher/V17">
-  <Author>Modified by igorcoraine.github.io | Siemens AG - SIMATIC Systems Support</Author>
+  <Author>igorcoraine.github.io</Author>
   <AddInVersion>V17</AddInVersion>
-  <Description>This TIA Add-In allows you to connect your VCI workspace to a Git repository</Description>
+	<Description>This TIA Add-In allows you to connect your VCI workspace to a Git repository | View more details about this Add-In at https://github.com/IgorCoraine/TIA_Add-In_VCI_Git_Connector
+	</Description>
 
   <Product>
     <Name>VCI Git Connector</Name>
