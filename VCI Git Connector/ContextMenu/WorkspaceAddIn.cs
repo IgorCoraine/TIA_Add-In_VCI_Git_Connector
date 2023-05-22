@@ -38,7 +38,7 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Push", GitPushClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Pull", GitPullClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("FreeCmd", GitFreeClick); //Added Item
-            //init?
+            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Init", GitInitClick); //Added Item
             //ignore
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Archieve and Push", GitArchieveClick); //Added Item
             //clone from remote
@@ -493,7 +493,7 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
                 }
 
                 //GIT ADD
-                var archieveAddProcess = Git.CreateGitProcess("add "+archiveName, workspacePath);
+                var archieveAddProcess = Git.CreateGitProcess("add " + archiveName, workspacePath);
 
                 string outputMessage;
                 string errorMessage;
@@ -576,11 +576,11 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
 
                 //spliting lines to rebuild later as html
                 var splitedMessage = Regex.Split(outputMessage, "\r\n|\r|\n");
-                
+
                 if (logSuccessful)
                 {
                     //{string.Join(" ", objectPaths)}
-                    string path = exportPath+"\\gitLog.html";
+                    string path = exportPath + "\\gitLog.html";
                     try
                     {
                         // Create the file, or overwrite if the file exists.
@@ -593,13 +593,16 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
                                 {
 
                                     htmlLine = "<h3>" + line + "</h3>";
-                                } else if (line.Contains("Author")||line.Contains("Date"))
+                                }
+                                else if (line.Contains("Author") || line.Contains("Date"))
                                 {
                                     htmlLine = "<p>" + line + "</p>";
-                                } else if(line!="")
+                                }
+                                else if (line != "")
                                 {
                                     htmlLine = "<p><strong>" + line + "</strong></p><br><hr style=\"border-top: 3px solid #bbb\">";
-                                } else
+                                }
+                                else
                                 {
                                     htmlLine = line;
                                 }
@@ -618,6 +621,82 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
                 else
                 {
                     UserInteraction.ShowOutputDialog("Export Git Log", SystemIcons.Error.ToBitmap(), "Error message from Git log command", outputMessage + Environment.NewLine + errorMessage);
+                }
+            }
+        }
+        //EXPORT GIT INIT
+        private static void GitInitClick(MenuSelectionProvider<WorkspaceFile, WorkspaceFolder> menuSelectionProvider)
+        {
+            var workspacePath = string.Empty;
+            var objectPaths = new List<string>();
+
+            if (menuSelectionProvider.GetSelection<WorkspaceFile>().Any())
+            {
+                workspacePath = menuSelectionProvider.GetSelection<WorkspaceFile>().First().Workspace.RootPath.FullName;
+            }
+            else if (menuSelectionProvider.GetSelection<WorkspaceFolder>().Any())
+            {
+                workspacePath = menuSelectionProvider.GetSelection<WorkspaceFolder>().First().Workspace.RootPath.FullName;
+            }
+
+            foreach (var file in menuSelectionProvider.GetSelection<WorkspaceFile>())
+            {
+                objectPaths.Add("\"" + file.FileInfo.FullName + "\"");
+            }
+
+            foreach (var folder in menuSelectionProvider.GetSelection<WorkspaceFolder>())
+            {
+                objectPaths.Add("\"" + folder.DirectoryInfo.FullName.TrimEnd('\\') + "\"");
+            }
+
+            if (workspacePath != string.Empty && objectPaths.Any())
+            {
+                var initProcess = Git.CreateGitProcess($"init", workspacePath);
+
+                string outputInitMessage;
+                string outputMessage;
+                string errorMessage;
+
+                var initSuccessful = Git.ExecuteGitCommand(initProcess, out outputInitMessage, out errorMessage, _tiaPortal);
+
+                if (initSuccessful)
+                {
+                    //Git Config user.name
+                    string configName;
+                    string configEmail;
+                    if (UserInteraction.ShowInputDialog("Git Config", "Enter the user.name", string.Empty, out configName))
+                    {
+                        initProcess = Git.CreateGitProcess($"config user.name \"{configName}\"", workspacePath);
+
+                        var configNameSuccessful = Git.ExecuteGitCommand(initProcess, out outputMessage, out errorMessage, _tiaPortal);
+                        if (configNameSuccessful)
+                        {
+                            //Git Config user.email
+                            if (UserInteraction.ShowInputDialog("Git Config", "Enter the user.email", string.Empty, out configEmail))
+                            {
+                                initProcess = Git.CreateGitProcess($"config user.email \"{configEmail}\"", workspacePath);
+
+                                var configEmailSuccessful = Git.ExecuteGitCommand(initProcess, out outputMessage, out errorMessage, _tiaPortal);
+                                if (!configEmailSuccessful)
+                                {
+                                    UserInteraction.ShowOutputDialog("Git Config user.email", SystemIcons.Error.ToBitmap(), "Error message from Git config command", outputMessage + Environment.NewLine + errorMessage);
+                                }
+                                else
+                                {
+                                    UserInteraction.ShowOutputDialog("Git Init and Config", SystemIcons.Information.ToBitmap(), "Output message from successful init command", outputInitMessage + Environment.NewLine + errorMessage);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            UserInteraction.ShowOutputDialog("Git Config user.name", SystemIcons.Error.ToBitmap(), "Error message from Git config command", outputMessage + Environment.NewLine + errorMessage);
+                        }
+
+                    }
+                }
+                else
+                {
+                    UserInteraction.ShowOutputDialog("Export Git Init", SystemIcons.Error.ToBitmap(), "Error message from Git init command", outputInitMessage + Environment.NewLine + errorMessage);
                 }
             }
         }
