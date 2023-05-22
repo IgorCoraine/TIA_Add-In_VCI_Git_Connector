@@ -30,18 +30,18 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OutputForm));
             this.panelBottom = new System.Windows.Forms.Panel();
+            this.signaturePictureBox = new System.Windows.Forms.PictureBox();
             this.buttonOk = new System.Windows.Forms.Button();
             this.panelTop = new System.Windows.Forms.Panel();
             this.labelTitle = new System.Windows.Forms.Label();
             this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
             this.panelMiddle = new System.Windows.Forms.Panel();
             this.textBoxMessage = new System.Windows.Forms.TextBox();
-            this.signaturePictureBox = new System.Windows.Forms.PictureBox();
             this.panelBottom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.signaturePictureBox)).BeginInit();
             this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
             this.panelMiddle.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.signaturePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // panelBottom
@@ -53,6 +53,18 @@
             this.panelBottom.Name = "panelBottom";
             this.panelBottom.Size = new System.Drawing.Size(657, 48);
             this.panelBottom.TabIndex = 5;
+            // 
+            // signaturePictureBox
+            // 
+            this.signaturePictureBox.AccessibleDescription = "igor coraine logo";
+            this.signaturePictureBox.AccessibleName = "igorcoraine.github.io";
+            this.signaturePictureBox.Image = ((System.Drawing.Image)(resources.GetObject("signaturePictureBox.Image")));
+            this.signaturePictureBox.Location = new System.Drawing.Point(-6, -67);
+            this.signaturePictureBox.Name = "signaturePictureBox";
+            this.signaturePictureBox.Size = new System.Drawing.Size(173, 173);
+            this.signaturePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.signaturePictureBox.TabIndex = 9;
+            this.signaturePictureBox.TabStop = false;
             // 
             // buttonOk
             // 
@@ -124,18 +136,6 @@
             this.textBoxMessage.TabIndex = 4;
             this.textBoxMessage.Text = "Message";
             // 
-            // signaturePictureBox
-            // 
-            this.signaturePictureBox.AccessibleDescription = "igor coraine logo";
-            this.signaturePictureBox.AccessibleName = "igorcoraine.github.io";
-            this.signaturePictureBox.Image = ((System.Drawing.Image)(resources.GetObject("signaturePictureBox.Image")));
-            this.signaturePictureBox.Location = new System.Drawing.Point(-14, -22);
-            this.signaturePictureBox.Name = "signaturePictureBox";
-            this.signaturePictureBox.Size = new System.Drawing.Size(174, 91);
-            this.signaturePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.signaturePictureBox.TabIndex = 9;
-            this.signaturePictureBox.TabStop = false;
-            // 
             // OutputForm
             // 
             this.AcceptButton = this.buttonOk;
@@ -155,11 +155,11 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Window title";
             this.panelBottom.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.signaturePictureBox)).EndInit();
             this.panelTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
             this.panelMiddle.ResumeLayout(false);
             this.panelMiddle.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.signaturePictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }

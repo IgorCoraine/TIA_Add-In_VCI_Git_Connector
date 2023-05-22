@@ -127,11 +127,11 @@
             this.signaturePictureBox.AccessibleDescription = "igor coraine logo";
             this.signaturePictureBox.AccessibleName = "igorcoraine.github.io";
             this.signaturePictureBox.Image = ((System.Drawing.Image)(resources.GetObject("signaturePictureBox.Image")));
-            this.signaturePictureBox.Location = new System.Drawing.Point(-14, -21);
+            this.signaturePictureBox.Location = new System.Drawing.Point(-5, -67);
             this.signaturePictureBox.Name = "signaturePictureBox";
-            this.signaturePictureBox.Size = new System.Drawing.Size(174, 91);
+            this.signaturePictureBox.Size = new System.Drawing.Size(173, 173);
             this.signaturePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.signaturePictureBox.TabIndex = 8;
+            this.signaturePictureBox.TabIndex = 10;
             this.signaturePictureBox.TabStop = false;
             // 
             // InputForm
