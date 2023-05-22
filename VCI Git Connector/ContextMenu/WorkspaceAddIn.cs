@@ -41,7 +41,7 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Init", GitInitClick); //Added Item
             //ignore
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Archieve and Push", GitArchieveClick); //Added Item
-            //clone from remote
+            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Clone", GitCloneClick); //Added Item
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Export Log", GitExportClick); //Added Item
             var settingsSubmenu = addInRootSubmenu.Items.AddSubmenu("Settings");
             settingsSubmenu.Items.AddActionItemWithCheckBox<WorkspaceFile, WorkspaceFolder>("Commit on VCI synchronize", _settings.GitCommitOnSyncClick, _settings.GitCommitOnSyncStatus);
@@ -392,7 +392,6 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
         }
 
         //GIT FREE COMMAND
-
         private static void GitFreeClick(MenuSelectionProvider<WorkspaceFile, WorkspaceFolder> menuSelectionProvider)
         {
             var workspacePath = string.Empty;
@@ -424,6 +423,56 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
                 if (UserInteraction.ShowInputDialog("Git Command", "Enter any git command WHITHOUT the 'git' word", string.Empty, out gitCommand))
                 {
                     var commandProcess = Git.CreateGitProcess($"{gitCommand}", workspacePath);
+
+                    string outputMessage;
+                    string errorMessage;
+
+                    var commandSuccessful = Git.ExecuteGitCommand(commandProcess, out outputMessage, out errorMessage, _tiaPortal);
+
+                    if (commandSuccessful)
+                    {
+                        UserInteraction.ShowOutputDialog("Git Command", SystemIcons.Information.ToBitmap(), "Output message from Git free command", outputMessage + Environment.NewLine + errorMessage);
+                    }
+                    else
+                    {
+                        UserInteraction.ShowOutputDialog("Git Command", SystemIcons.Error.ToBitmap(), "Error message from Git free command", outputMessage + Environment.NewLine + errorMessage);
+                    }
+                }
+            }
+        }
+
+        //GIT CLONE
+        private static void GitCloneClick(MenuSelectionProvider<WorkspaceFile, WorkspaceFolder> menuSelectionProvider)
+        {
+            var workspacePath = string.Empty;
+            var objectPaths = new List<string>();
+
+            if (menuSelectionProvider.GetSelection<WorkspaceFile>().Any())
+            {
+                workspacePath = menuSelectionProvider.GetSelection<WorkspaceFile>().First().Workspace.RootPath.FullName;
+            }
+            else if (menuSelectionProvider.GetSelection<WorkspaceFolder>().Any())
+            {
+                workspacePath = menuSelectionProvider.GetSelection<WorkspaceFolder>().First().Workspace.RootPath.FullName;
+            }
+
+            foreach (var file in menuSelectionProvider.GetSelection<WorkspaceFile>())
+            {
+                objectPaths.Add("\"" + file.FileInfo.FullName + "\"");
+            }
+
+            foreach (var folder in menuSelectionProvider.GetSelection<WorkspaceFolder>())
+            {
+                objectPaths.Add("\"" + folder.DirectoryInfo.FullName.TrimEnd('\\') + "\"");
+            }
+
+            if (workspacePath != string.Empty && objectPaths.Any())
+            {
+                string cloneURL;
+
+                if (UserInteraction.ShowInputDialog("Git Clone", "Enter the remote repository Address or URL", string.Empty, out cloneURL))
+                {
+                    var commandProcess = Git.CreateGitProcess($"clone {cloneURL}", workspacePath);
 
                     string outputMessage;
                     string errorMessage;
