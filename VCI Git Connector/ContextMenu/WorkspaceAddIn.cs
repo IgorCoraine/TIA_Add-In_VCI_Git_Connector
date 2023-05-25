@@ -40,11 +40,11 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Push", GitPushClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Pull", GitPullClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("FreeCmd", GitFreeClick); //Added Item
+            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Export Log", GitExportClick); //Added Item
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Init", GitInitClick); //Added Item
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Ignore", GitIgnoreClick); //Added Item
-            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Archieve and Push", GitArchieveClick); //Added Item
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Clone", GitCloneClick); //Added Item
-            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Export Log", GitExportClick); //Added Item
+            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Archieve and Push", GitArchieveClick); //Added Item
             var settingsSubmenu = addInRootSubmenu.Items.AddSubmenu("Settings");
             settingsSubmenu.Items.AddActionItemWithCheckBox<WorkspaceFile, WorkspaceFolder>("Commit on VCI synchronize", _settings.GitCommitOnSyncClick, _settings.GitCommitOnSyncStatus);
             settingsSubmenu.Items.AddActionItemWithCheckBox<WorkspaceFile, WorkspaceFolder>("Push on VCI synchronize", _settings.GitPushOnSyncClick, _settings.GitPushOnSyncStatus);
