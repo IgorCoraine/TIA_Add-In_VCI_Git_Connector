@@ -13,6 +13,8 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Text.RegularExpressions;
 using System.Windows.Shapes;
 using System.Windows.Input;
+using Siemens.Engineering.HmiUnified.UI.Shapes;
+using Path = System.IO.Path;
 
 namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
 {
@@ -39,7 +41,7 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Pull", GitPullClick);
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("FreeCmd", GitFreeClick); //Added Item
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Init", GitInitClick); //Added Item
-            //ignore
+            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Ignore", GitIgnoreClick); //Added Item
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Archieve and Push", GitArchieveClick); //Added Item
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Clone", GitCloneClick); //Added Item
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Export Log", GitExportClick); //Added Item
@@ -673,6 +675,81 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
                 }
             }
         }
+
+        //EXPORT GIT IGNORE
+        private static void GitIgnoreClick(MenuSelectionProvider<WorkspaceFile, WorkspaceFolder> menuSelectionProvider)
+        {
+            var workspacePath = string.Empty;
+            var objectPaths = new List<string>();
+            string exportPath = "";
+            string ignoredItem = "";
+
+            if (menuSelectionProvider.GetSelection<WorkspaceFile>().Any())
+            {
+                workspacePath = menuSelectionProvider.GetSelection<WorkspaceFile>().First().Workspace.RootPath.FullName;
+            }
+            else if (menuSelectionProvider.GetSelection<WorkspaceFolder>().Any())
+            {
+                workspacePath = menuSelectionProvider.GetSelection<WorkspaceFolder>().First().Workspace.RootPath.FullName;
+            }
+
+            foreach (var file in menuSelectionProvider.GetSelection<WorkspaceFile>())
+            {
+                objectPaths.Add("\"" + file.FileInfo.FullName + "\"");
+                exportPath = file.FileInfo.DirectoryName;
+                ignoredItem = file.FileInfo.Name;
+            }
+
+            foreach (var folder in menuSelectionProvider.GetSelection<WorkspaceFolder>())
+            {
+                objectPaths.Add("\"" + folder.DirectoryInfo.FullName.TrimEnd('\\') + "\"");
+                exportPath = folder.DirectoryInfo.Parent.FullName;
+                ignoredItem = folder.DirectoryInfo.Name + "/";
+            }
+
+            if (workspacePath != string.Empty && objectPaths.Any())
+            {
+                string outputMessage;
+                string errorMessage;
+
+                //{string.Join(" ", objectPaths)}
+                string path = exportPath + "\\.gitignore";
+                if (!File.Exists(path))
+                {
+                    try
+                    {
+                        // Create the file, or overwrite if the file exists.
+                        using (FileStream fs = File.Create(path))
+                        {
+                            byte[] file = new UTF8Encoding(true).GetBytes(ignoredItem);
+                            fs.Write(file, 0, file.Length);
+                        }
+
+                        UserInteraction.ShowOutputDialog("Git .ignore", SystemIcons.Information.ToBitmap(), ignoredItem + " Ignored", ignoredItem+" will no longer be watched by git" + Environment.NewLine);
+                    }
+
+                    catch (Exception ex)
+                    {
+                        UserInteraction.ShowOutputDialog("Git .ignore", SystemIcons.Error.ToBitmap(), "Error message from creating the .ignore file", ex.ToString() + Environment.NewLine);
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        File.AppendAllText(path, Environment.NewLine + ignoredItem);
+                        UserInteraction.ShowOutputDialog("Git .ignore", SystemIcons.Information.ToBitmap(), ignoredItem + " Ignored", ignoredItem + " will no longer be watched by git" + Environment.NewLine);
+                    }
+                    catch (Exception ex)
+                    {
+                        UserInteraction.ShowOutputDialog("Git .ignore", SystemIcons.Error.ToBitmap(), "Error message from writing in the .ignore file", ex.ToString() + Environment.NewLine);
+                    }
+                }
+            }
+        }
+    
+
+
         //EXPORT GIT INIT
         private static void GitInitClick(MenuSelectionProvider<WorkspaceFile, WorkspaceFolder> menuSelectionProvider)
         {
