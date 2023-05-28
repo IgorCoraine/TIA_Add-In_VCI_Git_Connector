@@ -28,7 +28,8 @@
       * 3.12 [Ignore](#3_12)
       * 3.13 [Clone](#3_13)
       * 3.14 [Archieve and Push](#3_14)
-      * 3.15 [Settings](#3_15)
+      * 3.15 [Add/Set Origin](3_15)
+      * 3.16 [Settings](#3_16)
 
 ---
 ## <a name="1"></a> 1. About this Project
@@ -227,11 +228,25 @@ git commit -m "Added archieved project"
 git push
 ```
 
-### <a name="3_15"></a>3.15 Settings
+### <a name="3_15"></a>3.15 Add/Set Origin
+
+>Adds remote Origin <br>
+>Rr if Origin already exists, set-url for remote Origin
+
+```shell
+git remote add origin 'given url'
+```
+```shell
+git remote set-url origin 'given url'
+```
+>The remote origin address will be requested on a pop-up<br>
+>Returns succesfull or error message on a pop-up<br>
+
+### <a name="3_16"></a>3.16 Settings
 
 >Here you can setup some default configurations
 
-#### 3.15.1 Commit on VCI synchronize
+#### 3.16.1 Commit on VCI synchronize
 
 >Commits the added files to VCI automatically
 ```shell
@@ -241,7 +256,7 @@ git commit -m 'given message'
 >A commit message will be requested on a pop-up<br>
 >Returns succesfull or error message on a pop-up
 
-#### 3.15.2 Push on VCI synchronize
+#### 3.16.2 Push on VCI synchronize
 
 >Commit and pushes the added files to VCI automatically
 ```shell
