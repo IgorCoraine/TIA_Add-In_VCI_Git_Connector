@@ -28,7 +28,7 @@
       * 3.12 [Ignore](#3_12)
       * 3.13 [Clone](#3_13)
       * 3.14 [Archieve and Push](#3_14)
-      * 3.15 [Add/Set Origin](3_15)
+      * 3.15 [Add/Set Origin](#3_15)
       * 3.16 [Settings](#3_16)
 
 ---
