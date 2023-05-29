@@ -27,21 +27,21 @@
       * 3.11 [Init](#3_11)
       * 3.12 [Ignore](#3_12)
       * 3.13 [Clone](#3_13)
-      * 3.14 [Archieve and Push](#3_14)
+      * 3.14 [Archive and Push](#3_14)
       * 3.15 [Add/Set Origin](#3_15)
       * 3.16 [Settings](#3_16)
 
 ---
 ## <a name="1"></a> 1. About this Project
-This is a TIA Add-In, what is a way to embed functions to your TIA Portal. No additional external applications are required to run TIA Add-Ins (See how to use it [here](#About)).
+This is a TIA Add-In, which is a way to embed functions into your TIA Portal. No additional external applications are required to run TIA Add-Ins (See how to use it on [item 2](#2)).
 
-This project is based on a *Siemens AG - SIMATIC Systems Support project:* ***109773999_TIA_Add-In_VCI_Git_Connector_1.0.0_CODE***, to witch functions were added and modified.
+This project is based on a *Siemens AG - SIMATIC Systems Support project:* ***109773999_TIA_Add-In_VCI_Git_Connector_1.0.0_CODE***, to which functions were added and modified.
 
 With this Add-In you can connect the *Version Control Interface* of TIA with a git repository and then use all git's power on your project.
 
 ### <a name="1_1"></a>1.1 Requirements
-* Basic knowledge on Git
-* Basic knowledge on TIA
+* Basic knowledge of Git
+* Basic knowledge of TIA Portal
 
 ### <a name="1_2"></a>1.2 Supporting Documentations
 * [VCI Documentation | Using TIA Portal Version Control Interface](https://support.industry.siemens.com/cs/mdm/109773506?c=129126268427&lc=en-BR)
@@ -62,20 +62,20 @@ Follow the steps below
 ### <a name="2_3"></a>2.3 Save .addin File to Correct Location
 No installation is required to run the Add-In. You just have to **copy the .addin file downloaded above to your AddIns folder**.
 
-The AddIns folder is finded inside your TIA Portal Installation directory. The standard location is 
+The AddIns folder is found inside your TIA Portal Installation directory. The standard location is 
 <br>`C:\Program Files\Siemens\Automation\Portal V17\AddIns`
 
-*When you paste it you will be asked to administrator permission, you just have to confirm if you are already logged as windows administrator.*
+*When you paste it you will be asked for administrator permission, you just have to confirm if you are already logged in as a Windows administrator.*
 
 ### <a name="2_4"></a>2.4 Activation
-After coping the file, open your TIA Portal and open the *project view*. On the right of the screen open the *Add-ins* tab, select VCIGitConnector.addin and change the status to *Activate*. You will be asked to apply permissions, click *Yes* to Activate the Add-In.
+After copying the file, open your TIA Portal and open the *project view*. On the right of the screen open the *Add-ins* tab, select VCIGitConnector.addin, and change the status to *Activate*. You will be asked to apply permissions, click *Yes* to Activate the Add-In.
 
 ![activation image](doc_images/installation.png)
 
 ### <a name="2_5"></a>2.5 Configuring the Workspace
 If you followed the steps above, your Add-In is active on your TIA Portal, independently from the TIA project.
 
-To use git on your project, create a *VCI workspace*, configure the repository folder, and select Git as the *Version control add-in*.
+To use Git on your project, create a *VCI workspace*, configure the repository folder, and select Git as the *Version control add-in*.
 
 ![configuring image](doc_images/configuration.png)
 
@@ -84,20 +84,20 @@ To use git on your project, create a *VCI workspace*, configure the repository f
 #### 2.6.1 VCI
 To add files from your project to your VCI repository or from your repository to your project, simply drag and drop the files or folders.
 
-To check what can be used with VCI check the specific documentation at item *1.2 Supporting Documentations*.
+To see what can be used with VCI check the specific documentation in [item 1.2](#1_2).
 
 #### 2.6.2 Git
 The Git is going to work at the VCI repository making it a Git repository as well. **To use any functions you must have at least one file to the configured repository or drag and drop something from the project to the repository**.
 
-To use the functions right click any of the files or folders at the repository side and choose the command you want, you can select more than one object to apply the command. Check the functions at next item *3. Functions Documentation*. To learn more about git check the specific documentation at item *1.2 Supporting Documentations*.
+To use the functions right click any of the files or folders on the repository side and choose the command you want, you can select more than one object to apply the command. Check the functions at next item *3. Functions Documentation*. To learn more about Git check the specific documentation in [item 1.2](#1_2).
 
 ![navigation image](doc_images/navigation.png)
 
 ---
 ## <a name="3"></a> 3. Functions Documentation
-The commands may differ a little bit from original terminal commands, for example combining more than one command, therefore is recommended to read the documentation before use.
+The commands may differ a little bit from Git's original terminal commands, for example combining more than one command, therefore is recommended to read the documentation before use.
 
-Git commands will not be explained on this documentations. To learn more about Git commands refer to item *1.2 Supporting Documentations*.
+Git commands will not be explained in this documentation. To learn more about Git commands refer to [item 1.2](#1_2).
 
 ### <a name="3_1"></a>3.1 Add
 
@@ -105,7 +105,7 @@ Git commands will not be explained on this documentations. To learn more about G
 ```shell
 git add 'selected objects'
 ```
->Returns succesfull or error message on a pop-up
+>Returns successful or error message on a pop-up
 
 ### <a name="3_2"></a>3.2 Commit
 
@@ -114,7 +114,7 @@ git add 'selected objects'
 git commit 'selected objects' -m "given message"
 ```
 >A commit message will be requested on a pop-up<br>
->Returns succesfull or error message on a pop-up
+>Returns successful or error message on a pop-up
 
 ### <a name="3_3"></a>3.3 Log
 
@@ -138,7 +138,7 @@ git status
 ```shell
 git reset HEAD 'selected objects'
 ```
->Returns succesfull or error message on a pop-up
+>Returns successful or error message on a pop-up
 
 ### <a name="3_6"></a>3.6 Restore
 
@@ -147,7 +147,7 @@ git reset HEAD 'selected objects'
 git restore 'selected objects'
 ```
 >A confirmation will be requested on a pop-up<br>
->Returns succesfull or error message on a pop-up
+>Returns successful or error message on a pop-up
 
 ### <a name="3_7"></a>3.7 Push
 
@@ -155,7 +155,7 @@ git restore 'selected objects'
 ```shell
 git push
 ```
->Returns succesfull or error message on a pop-up<br>
+>Returns successful or error message on a pop-up<br>
 >**It is necessary to add remote origin first**
 
 ### <a name="3_8"></a>3.8 Pull
@@ -164,7 +164,7 @@ git push
 ```shell
 git pull
 ```
->Returns succesfull or error message on a pop-up<br>
+>Returns successful or error message on a pop-up<br>
 >**It is necessary to add remote origin first**
 
 ### <a name="3_9"></a>3.9 Free Command
@@ -175,76 +175,76 @@ git pull
 ```shell
 git 'passed command'
 ```
->Returns succesfull or error message on a pop-up
+>Returns successful or error message on a pop-up
 
 ### <a name="3_10"></a>3.10 Export Log
 
->Exports a html file with git's log
+>Exports an HTML file with git's log
 >
 > If a file gitLog.html already exists, it will be overwritten
 ```shell
 git log
 ```
->Returns succesfull or error message on a pop-up<br>
+>Returns successful or error message on a pop-up<br>
 >Creates a gitLog.html file on the current directory
 
 ### <a name="3_11"></a>3.11 Init
 
->Initiates a git repository and configure the user
+>Initiates a git repository and configures the user
 ```shell
 git init
 git config user.name 'given name'
 git config user.email 'given email'
 ```
 >User name and email will be requested on a pop-up<br>
->Returns succesfull or error message on a pop-up
+>Returns successful or error message on a pop-up
 
 ### <a name="3_12"></a>3.12 Ignore
 
 >Ignores the selected files
 >
-> If the file .ignore doesn't exists, it will be created on the current directory<br>
+> If the file .ignore doesn't exist, it will be created on the current directory<br>
 > If the file .ignore exists, the file will be added to the end of it
 
 ### <a name="3_13"></a>3.13 Clone
 
 >Clones a remote repository
 ```shell
-git clone 'given url'
+git clone 'given URL'
 ```
 >The remote repository address will be requested on a pop-up<br>
->Returns succesfull or error message on a pop-up<br>
+>Returns successful or error message on a pop-up<br>
 
-### <a name="3_14"></a>3.14 Archieve and Push
+### <a name="3_14"></a>3.14 Archive and Push
 
->Archieves the current project to the repository directory, add, commit and pushes the changes
+>Archives the current project to the repository directory, adds, commit, and pushes the changes
 ```
 project.save()
-project.archieve()
+project.archive()
 ```
 ```shell
 git add .
-git commit -m "Added archieved project"
+git commit -m "Added archived project"
 git push
 ```
 
 ### <a name="3_15"></a>3.15 Add/Set Origin
 
 >Adds remote Origin <br>
->Rr if Origin already exists, set-url for remote Origin
+>If Origin already exists, set-url for remote Origin
 
 ```shell
-git remote add origin 'given url'
+git remote add origin 'given URL'
 ```
 ```shell
-git remote set-url origin 'given url'
+git remote set-url origin 'given URL'
 ```
 >The remote origin address will be requested on a pop-up<br>
->Returns succesfull or error message on a pop-up<br>
+>Returns successful or error message on a pop-up<br>
 
 ### <a name="3_16"></a>3.16 Settings
 
->Here you can setup some default configurations
+>Here you can set up some default configurations
 
 #### 3.16.1 Commit on VCI synchronize
 
@@ -254,7 +254,7 @@ git add .
 git commit -m 'given message'
 ```
 >A commit message will be requested on a pop-up<br>
->Returns succesfull or error message on a pop-up
+>Returns successful or error message on a pop-up
 
 #### 3.16.2 Push on VCI synchronize
 
@@ -265,7 +265,7 @@ git commit -m 'given message'
 git push
 ```
 >A commit message will be requested on a pop-up<br>
->Returns succesfull or error message on a pop-up
+>Returns successful or error message on a pop-up<br>
 >**It is necessary to add remote origin first**
 
 ---
