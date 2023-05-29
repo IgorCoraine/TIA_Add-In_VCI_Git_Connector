@@ -89,7 +89,7 @@ To see what can be used with VCI check the specific documentation in [item 1.2](
 #### 2.6.2 Git
 The Git is going to work at the VCI repository making it a Git repository as well. **To use any functions you must have at least one file to the configured repository or drag and drop something from the project to the repository**.
 
-To use the functions right click any of the files or folders on the repository side and choose the command you want, you can select more than one object to apply the command. Check the functions at next item *3. Functions Documentation*. To learn more about Git check the specific documentation in [item 1.2](#1_2).
+To use the functions right click any of the files or folders on the repository side and choose the command you want, **you can select more than one object to apply the command**. Check the functions at [item 3](#3). To learn more about Git check the specific documentation in [item 1.2](#1_2).
 
 ![navigation image](doc_images/navigation.png)
 
