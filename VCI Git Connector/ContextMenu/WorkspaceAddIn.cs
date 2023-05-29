@@ -44,7 +44,7 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Init", GitInitClick); //Added Item
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Ignore", GitIgnoreClick); //Added Item
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Clone", GitCloneClick); //Added Item
-            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Archieve and Push", GitArchieveClick); //Added Item
+            addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Archive and Push", GitArchiveClick); //Added Item
             addInRootSubmenu.Items.AddActionItem<WorkspaceFile, WorkspaceFolder>("Add/Set Origin", GitOriginClick); //Added Item
             var settingsSubmenu = addInRootSubmenu.Items.AddSubmenu("Settings");
             settingsSubmenu.Items.AddActionItemWithCheckBox<WorkspaceFile, WorkspaceFolder>("Commit on VCI synchronize", _settings.GitCommitOnSyncClick, _settings.GitCommitOnSyncStatus);
@@ -494,8 +494,8 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
             }
         }
 
-        //ARCHIEVE AND GIT PUSH *.ZAP**
-        private static void GitArchieveClick(MenuSelectionProvider<WorkspaceFile, WorkspaceFolder> menuSelectionProvider)
+        //ARCHIVE AND GIT PUSH *.ZAP**
+        private static void GitArchiveClick(MenuSelectionProvider<WorkspaceFile, WorkspaceFolder> menuSelectionProvider)
         {
             var workspacePath = string.Empty;
             var objectPaths = new List<string>();
@@ -524,50 +524,50 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
 
             if (workspacePath != string.Empty && objectPaths.Any())
             {
-                //Archieve project
+                //Archive project
                 Project project = _tiaPortal.Projects.First();
 
                 string archiveName = project.Name;
-                string archieveFullName = exportPath + "\\" + archiveName;
+                string archiveFullName = exportPath + "\\" + archiveName;
 
                 try
                 {
-                    if (File.Exists(archieveFullName))
+                    if (File.Exists(archiveFullName))
                     {
-                        File.Delete(archieveFullName);
+                        File.Delete(archiveFullName);
                     }
                     project.Save();
                     project.Archive(exportPath, archiveName, ProjectArchivationMode.Compressed);
                 }
                 catch (Exception ex)
                 {
-                    UserInteraction.ShowOutputDialog("Archieve Project", SystemIcons.Error.ToBitmap(), "Error message from archieving project", ex.ToString() + Environment.NewLine);
+                    UserInteraction.ShowOutputDialog("Archive Project", SystemIcons.Error.ToBitmap(), "Error message from archiving project", ex.ToString() + Environment.NewLine);
                 }
 
                 //GIT ADD
-                var archieveAddProcess = Git.CreateGitProcess("add " + archiveName, workspacePath);
+                var archiveAddProcess = Git.CreateGitProcess("add " + archiveName, workspacePath);
 
                 string outputMessage;
                 string errorMessage;
 
-                var archieveAddSuccessful = Git.ExecuteGitCommand(archieveAddProcess, out outputMessage, out errorMessage, _tiaPortal);
+                var archiveAddSuccessful = Git.ExecuteGitCommand(archiveAddProcess, out outputMessage, out errorMessage, _tiaPortal);
 
-                if (archieveAddSuccessful)
+                if (archiveAddSuccessful)
                 {
                     //GIT COMMIT
-                    var archieveCommitProcess = Git.CreateGitProcess("commit -m \"Added archieved project\"" + archiveName, workspacePath);
-                    var archieveCommitSuccessful = Git.ExecuteGitCommand(archieveCommitProcess, out outputMessage, out errorMessage, _tiaPortal);
-                    if (archieveCommitSuccessful)
+                    var archiveCommitProcess = Git.CreateGitProcess("commit -m \"Added archived project\"" + archiveName, workspacePath);
+                    var archiveCommitSuccessful = Git.ExecuteGitCommand(archiveCommitProcess, out outputMessage, out errorMessage, _tiaPortal);
+                    if (archiveCommitSuccessful)
                     {
                         //GIT PUSH
                         string remoteRepo;
                         if (UserInteraction.ShowInputDialog("Remote Settings", "Enter the remote repository for 'git push REMOTE-NAME master'", string.Empty, out remoteRepo))
                         {
-                            var archievePushProcess = Git.CreateGitProcess("push " + remoteRepo + " master", workspacePath);
-                            var archievePushSuccessful = Git.ExecuteGitCommand(archievePushProcess, out outputMessage, out errorMessage, _tiaPortal);
-                            if (archievePushSuccessful)
+                            var archivePushProcess = Git.CreateGitProcess("push " + remoteRepo + " master", workspacePath);
+                            var archivePushSuccessful = Git.ExecuteGitCommand(archivePushProcess, out outputMessage, out errorMessage, _tiaPortal);
+                            if (archivePushSuccessful)
                             {
-                                UserInteraction.ShowOutputDialog("Archieve and Push", SystemIcons.Information.ToBitmap(), "Project archieved to", exportPath + Environment.NewLine + "And pushed also pushed successfully");
+                                UserInteraction.ShowOutputDialog("Archive and Push", SystemIcons.Information.ToBitmap(), "Project archived to", exportPath + Environment.NewLine + "And pushed also pushed successfully");
                             }
                             else
                             {
@@ -577,12 +577,12 @@ namespace Siemens.Applications.AddIns.VCIGitConnector.ContextMenu
                     }
                     else
                     {
-                        UserInteraction.ShowOutputDialog("Git Commit", SystemIcons.Error.ToBitmap(), "Error message from Git commit archieved command", outputMessage + Environment.NewLine + errorMessage);
+                        UserInteraction.ShowOutputDialog("Git Commit", SystemIcons.Error.ToBitmap(), "Error message from Git commit archived command", outputMessage + Environment.NewLine + errorMessage);
                     }
                 }
                 else
                 {
-                    UserInteraction.ShowOutputDialog("Git Add", SystemIcons.Error.ToBitmap(), "Error message from Git add achieved command", outputMessage + Environment.NewLine + errorMessage);
+                    UserInteraction.ShowOutputDialog("Git Add", SystemIcons.Error.ToBitmap(), "Error message from Git add achived command", outputMessage + Environment.NewLine + errorMessage);
                 }
             }
         }

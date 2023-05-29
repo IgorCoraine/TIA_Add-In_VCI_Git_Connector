@@ -1,4 +1,4 @@
-C:\Program Files\Siemens\Automation\Portal V17\PublicAPI\V17.AddIn\Siemens.Engineering.AddIn.Publisher.exe --> 28/05/2023 19:13:58 UTC
+C:\Program Files\Siemens\Automation\Portal V17\PublicAPI\V17.AddIn\Siemens.Engineering.AddIn.Publisher.exe --> 29/05/2023 21:21:15 UTC
 
 Calling Arguments:
 --configuration              :C:\Users\cassioli\source\repos\TIA_Add-In_VCI_Git_Connector\VCI Git Connector\AddIn\Config.xml
@@ -22,4 +22,4 @@ Packaging Permission 'Siemens.Engineering.AddIn.Permissions.ProcessStartPermissi
 Packaging Permission 'System.Security.Permissions.SecurityPermission.UnmanagedCode'.
 Packaging Permission 'TIA.ReadWrite'.
 
- --> S U C C E E D E D <-- (0,638s)
+ --> S U C C E E D E D <-- (1,330s)
